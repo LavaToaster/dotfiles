@@ -25,6 +25,7 @@ brew 'fortune'
 brew 'sl' # Corrects bad typing
 brew 'tree'
 brew 'yadm'
+brew 'mas'
 
 ## Applications
 
@@ -43,6 +44,8 @@ cask 'intellij-idea'
 cask 'razer-synapse'
 cask 'spotify'
 cask 'spotify-notifications'
+cask 'dash'
+mas 'DaisyDisk', id: 411643860
 
 ## Fonts
 
