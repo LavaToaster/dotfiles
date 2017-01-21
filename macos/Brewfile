@@ -1,0 +1,49 @@
+cask_args appdir: '/Applications'
+
+tap 'homebrew/services'
+tap 'caskroom/cask'
+tap 'caskroom/versions'
+tap 'caskroom/fonts'
+
+## CLI
+
+brew 'git'
+brew 'libgit2'
+brew 'the_silver_searcher'
+brew 'postgresql'
+brew 'mysql'
+brew 'redis'
+brew 'phantomjs'
+brew 'hub'
+brew 'vim'
+brew 'ctags'
+brew 'tmux'
+brew 'htop'
+brew 'reattach-to-user-namespace'
+brew 'go'
+brew 'fortune'
+brew 'sl' # Corrects bad typing
+brew 'tree'
+brew 'yadm'
+
+## Applications
+
+cask 'google-chrome'
+cask 'firefox'
+cask 'cloud'
+cask 'flux'
+cask 'slack'
+cask 'skype'
+cask 'discord'
+cask 'iterm2'
+cask 'spectacle'
+cask 'alfred'
+cask 'atom'
+cask 'intellij-idea'
+cask 'razer-synapse'
+cask 'spotify'
+cask 'spotify-notifications'
+
+## Fonts
+
+cask 'font-hermit'
