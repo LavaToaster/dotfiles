@@ -280,17 +280,27 @@ provision() {
 update() {
   fancy_echo 'Updating machine'
 
-  install_from_brewfile
-  set_macos_defaults
+  case "$1" in
+    brew) :
+      install_from_brewfile
+      ;;
+    macos) :
+      set_macos_defaults
+      ;;
+    *)
+      install_from_brewfile
+      set_macos_defaults
+      ;;
+  esac
 
   fancy_echo 'All done!'
 }
 
 case "$1" in
-  */install) :
+  install) :
     provision
     ;;
   *)
-    update
+    update $2
     ;;
 esac

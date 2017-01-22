@@ -18,3 +18,7 @@ export EDITOR=$VISUAL
 if [[ -s "${HOME}/.zshrc.local" ]]; then
   source "${HOME}/.zshrc.local"
 fi
+
+update() {
+  bash $HOME/macos/mac update $1
+}
