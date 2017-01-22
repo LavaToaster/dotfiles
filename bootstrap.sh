@@ -25,9 +25,9 @@ yadm submodule update --init --recursive
 
 fancy_echo 'Setting up some prezto symlinks'
 # Link some pretzo stuff
-ln -s $HOME/.prezto/runcoms/zlogin $HOME/.zlogin
-ln -s $HOME/.prezto/runcoms/zlogout $HOME/.zlogout
-ln -s $HOME/.prezto/runcoms/zprofile $HOME/.zprofile
+ln -s $HOME/.zprezto/runcoms/zlogin $HOME/.zlogin
+ln -s $HOME/.zprezto/runcoms/zlogout $HOME/.zlogout
+ln -s $HOME/.zprezto/runcoms/zprofile $HOME/.zprofile
 
 touch ~/.zshrc.local
 
