@@ -251,6 +251,7 @@ provision() {
 
   install_homebrew
   update_homebrew_forumlas
+  install_from_brewfile
 
   # shellcheck disable=SC2016
   append_to_file "$shell_file" 'eval "$(hub alias -s)"'
