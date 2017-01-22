@@ -103,6 +103,12 @@ install_from_brewfile() {
 }
 
 install_node_nvm() {
+  # shellcheck disable=SC2154
+  trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+  set -e
+
+
   fancy_echo 'Checking on Node.js installation...'
 
   if ! brew_is_installed "node"; then
