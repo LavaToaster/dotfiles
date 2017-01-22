@@ -6,4 +6,8 @@ Shoutout to the following repositories:
 * [thoughtbot/laptop](https://github.com/thoughtbot/laptop) - For providing the original mac script 18F/laptop uses
 * [prezto](https://github.com/zsh-users/prezto) - I will forever mispell this as pretzo
 
+Supposedly simple setup for macOS:
 
+```
+curl -L https://raw.githubusercontent.com/Lavoaster/dotfiles/master/bootstrap.sh | bash
+```
