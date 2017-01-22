@@ -50,6 +50,7 @@ cask 'dash'
 cask 'virtualbox'
 cask 'tunnelblick'
 cask 'hipchat'
+cask 'lastpass'
 
 ## Fonts
 
