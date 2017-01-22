@@ -46,6 +46,7 @@ cask 'spotify'
 cask 'spotify-notifications'
 cask 'dash'
 mas 'DaisyDisk', id: 411643860
+cask 'gpgtools'
 
 ## Fonts
 

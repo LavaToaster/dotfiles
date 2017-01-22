@@ -10,7 +10,7 @@
 #
 
 # Set case-sensitivity for completion, history lookup, etc.
-# zstyle ':prezto:*:*' case-sensitive 'yes'
+zstyle ':prezto:*:*' case-sensitive 'no'
 
 # Color output (auto set to 'no' on dumb terminals).
 zstyle ':prezto:*:*' color 'yes'
@@ -32,6 +32,9 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
+  'syntax-highlighting' \
+  'history-substring-search' \
+  'autosuggestions' \
   'prompt'
 
 #
@@ -44,6 +47,8 @@ zstyle ':prezto:load' pmodule \
 #
 # Autosuggestions
 #
+
+zstyle ':prezto:module:autosuggestions' color 'yes'
 
 # Set the query found color.
 # zstyle ':prezto:module:autosuggestions:color' found ''

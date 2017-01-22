@@ -13,3 +13,8 @@ fi
 # Editor
 export VISUAL='vim'
 export EDITOR=$VISUAL
+
+# Source local zshrc
+if [[ -s "${HOME}/.zshrc.local" ]]; then
+  source "${HOME}/.zshrc.local"
+fi
