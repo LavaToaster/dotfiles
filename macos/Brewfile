@@ -51,4 +51,4 @@ cask 'virtualbox'
 
 ## Fonts
 
-cask 'font-hermit'
+cask 'font-menlo-for-powerline'
