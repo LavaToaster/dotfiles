@@ -46,10 +46,10 @@ cask 'razer-synapse'
 cask 'spotify'
 cask 'spotify-notifications'
 cask 'dash'
-mas 'DaisyDisk', id: 411643860
 # cask 'gpgtools' # Leaving this in for reference - but I've found this cask to hang at times...
 cask 'virtualbox'
 cask 'tunnelblick'
+cask 'hipchat'
 
 ## Fonts
 
