@@ -273,6 +273,9 @@ provision() {
 
   fancy_echo 'Configuring OS X'
 
+  # As this is a provision run, we'll clear the persistent apps on the dock
+  defaults write com.apple.dock persistent-apps -array
+
   set_macos_defaults
 
   fancy_echo 'All done! Some of these changes require a restart to take effect.'
