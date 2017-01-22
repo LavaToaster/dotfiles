@@ -31,6 +31,8 @@ zstyle ':prezto:load' pmodule \
   'directory' \
   'spectrum' \
   'utility' \
+  'git' \
+  'homebrew' \
   'completion' \
   'syntax-highlighting' \
   'history-substring-search' \
