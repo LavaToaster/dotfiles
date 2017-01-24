@@ -4,6 +4,7 @@ tap 'homebrew/services'
 tap 'caskroom/cask'
 tap 'caskroom/versions'
 tap 'caskroom/fonts'
+tap 'jhawthorn/fzy'
 
 ## CLI
 
@@ -28,6 +29,7 @@ brew 'yadm'
 brew 'mas'
 brew 'git-crypt'
 brew 'zplug'
+brew 'fzy'
 
 ## Applications
 
