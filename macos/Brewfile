@@ -27,6 +27,7 @@ brew 'tree'
 brew 'yadm'
 brew 'mas'
 brew 'git-crypt'
+brew 'zplug'
 
 ## Applications
 
@@ -51,7 +52,11 @@ cask 'virtualbox'
 cask 'tunnelblick'
 cask 'hipchat'
 cask 'lastpass'
+cask 'veertu-desktop'
+cask 'sequel-pro-nightly'
+cask 'postico'
 
 ## Fonts
 
 cask 'font-menlo-for-powerline'
+cask 'font-monoid-nerd-font'
