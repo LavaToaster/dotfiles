@@ -57,7 +57,27 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
 
 ### KEY BINDINGS ###
 KEYTIMEOUT=1 # Prevents key timeout lag.
-bindkey -v
+bindkey -e
+
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+
+
+if [[ "${terminfo[khome]}" != "" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
+fi
+if [[ "${terminfo[kend]}" != "" ]]; then
+  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
+fi
+
 
 # Bind UP and DOWN arrow keys for subsstring search.
 if zplug check zsh-users/zsh-history-substring-search; then
