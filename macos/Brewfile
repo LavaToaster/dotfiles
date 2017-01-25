@@ -30,6 +30,7 @@ brew 'mas'
 brew 'git-crypt'
 brew 'zplug'
 brew 'fzy'
+brew 'fzf'
 
 ## Applications
 
