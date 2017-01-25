@@ -25,6 +25,10 @@ fi
 
 zplug load
 
+if [[ ! -d ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 ### COMPLETIONS ###
 type tmuxp &> /dev/null && eval "`_TMUXP_COMPLETE=source tmuxp`"
 
