@@ -5,6 +5,8 @@ source $ZPLUG_HOME/init.zsh
 zplug "djui/alias-tips"
 zplug "oconnor663/zsh-sensible"
 zplug "b4b4r07/enhancd", use:init.sh
+zplug "plugins/colored-man-pages", from:oh-my-zsh
+zplug "plugins/aws", from:oh-my-zsh
 
 zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-completions"
