@@ -13,7 +13,7 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:3 # Should be loaded 2nd last.
 
 # Theme.
 setopt prompt_subst # Make sure propt is able to be generated properly.
-zplug "adambiggs/zsh-theme", use:adambiggs.zsh-theme
+zplug "caiogondim/bullet-train-oh-my-zsh-theme", use:bullet-train.zsh-theme
 
 # Check for uninstalled plugins.
 if ! zplug check --verbose; then
@@ -23,7 +23,17 @@ if ! zplug check --verbose; then
   fi
 fi
 
-zplug load
+BULLETTRAIN_DIR_EXTENDED=2
+BULLETTRAIN_GIT_COLORIZE_DIRTY=true
+BULLETTRAIN_PROMPT_ORDER=(
+  time
+  status
+  custom
+  context
+  dir
+  git
+  cmd_exec_time
+)
 
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -82,7 +92,6 @@ if [[ "${terminfo[kend]}" != "" ]]; then
   bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
 fi
 
-
 # Bind UP and DOWN arrow keys for subsstring search.
 if zplug check zsh-users/zsh-history-substring-search; then
   zmodload zsh/terminfo
@@ -90,8 +99,14 @@ if zplug check zsh-users/zsh-history-substring-search; then
   bindkey "$terminfo[cud1]" history-substring-search-down
 fi
 
-if which vim >/dev/null 2>&1; then
-  alias vi='vim'
+if which nvim >/dev/null 2>&1; then
+  alias vi='nvim'
+  alias vim='nvim'
 fi
 
+
 alias l='ls -lAh'
+
+zplug load
+
+#source ~/.zshrc.local
