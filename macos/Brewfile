@@ -6,6 +6,7 @@ tap 'caskroom/versions'
 tap 'caskroom/fonts'
 tap 'jhawthorn/fzy'
 tap 'neovim/neovim'
+tap 'homebrew/homebrew-php'
 
 ## CLI
 
@@ -34,6 +35,17 @@ brew 'zplug'
 brew 'fzy'
 brew 'fzf'
 brew 'yarn'
+brew 'fswatch'
+brew 'unison'
+
+## PHP
+
+brew 'php71'
+brew 'php71-pdo-pgsql'
+brew 'php71-ssh2'
+brew 'php71-intl'
+brew 'php71-libsodium'
+brew 'php71-mcrypt'
 
 ## Applications
 
