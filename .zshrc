@@ -2,15 +2,17 @@
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
+zmodload zsh/terminfo
+
 zplug "djui/alias-tips"
 zplug "oconnor663/zsh-sensible"
 zplug "b4b4r07/enhancd", use:init.sh
 zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/aws", from:oh-my-zsh
 
-zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-history-substring-search", defer:3 # Should be loaded last.
+zplug "zsh-users/zsh-autosuggestions", defer:2
+# zplug "zsh-users/zsh-history-substring-search", defer:3 # Should be loaded last.
 zplug "zsh-users/zsh-syntax-highlighting", defer:3 # Should be loaded 2nd last.
 
 # Theme.
@@ -63,10 +65,10 @@ export ZSH_PLUGINS_ALIAS_TIPS_TEXT='    '
 export ZSH_CACHE_DIR=$ZSH/cache
 
 ### AUTOSUGGESTIONS ###
-if zplug check zsh-users/zsh-autosuggestions; then
-  ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down) # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
-  ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}") # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
-fi
+# if zplug check zsh-users/zsh-autosuggestions; then
+#   ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down) # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
+#   ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}") # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
+# fi
 
 # Fix colour being used
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
@@ -75,40 +77,22 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
 KEYTIMEOUT=1 # Prevents key timeout lag.
 bindkey -e
 
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-  function zle-line-init() {
-    echoti smkx
-  }
-  function zle-line-finish() {
-    echoti rmkx
-  }
-  zle -N zle-line-init
-  zle -N zle-line-finish
-fi
-
-
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
-fi
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
-fi
+zplug load
 
 # Bind UP and DOWN arrow keys for subsstring search.
-if zplug check zsh-users/zsh-history-substring-search; then
-  zmodload zsh/terminfo
-  bindkey "$terminfo[cuu1]" history-substring-search-up
-  bindkey "$terminfo[cud1]" history-substring-search-down
-fi
+# if zplug check zsh-users/zsh-history-substring-search; then
+#   bindkey "$terminfo[cuu1]" history-substring-search-up
+#   bindkey "$terminfo[cud1]" history-substring-search-down
+# fi
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+alias l='ls -lAh'
 
 if which nvim >/dev/null 2>&1; then
   alias vi='nvim'
   alias vim='nvim'
 fi
-
-
-alias l='ls -lAh'
-
-zplug load
 
 #source ~/.zshrc.local
