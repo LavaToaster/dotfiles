@@ -1,5 +1,11 @@
 # Source zplug
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=~/.zplug
+
+if [[ ! -d ~/.zplug ]]; then
+  echo "Installing zplug"
+  curl -sL zplug.sh/installer | zsh
+fi
+
 source $ZPLUG_HOME/init.zsh
 
 zplug "djui/alias-tips"
