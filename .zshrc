@@ -2,17 +2,16 @@
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-zmodload zsh/terminfo
-
 zplug "djui/alias-tips"
 zplug "oconnor663/zsh-sensible"
 zplug "b4b4r07/enhancd", use:init.sh
 zplug "plugins/colored-man-pages", from:oh-my-zsh
 zplug "plugins/aws", from:oh-my-zsh
+zplug "lib/completion", from:oh-my-zsh
 
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions", defer:2
-# zplug "zsh-users/zsh-history-substring-search", defer:3 # Should be loaded last.
+zplug "zsh-users/zsh-history-substring-search", defer:3 # Should be loaded last.
 zplug "zsh-users/zsh-syntax-highlighting", defer:3 # Should be loaded 2nd last.
 
 # Theme.
@@ -56,6 +55,15 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 
+# ZSH File completion
+# unsetopt menu_complete   # do not autoselect the first completion entry
+# unsetopt flowcontrol
+# setopt auto_menu
+# setopt complete_in_word
+# setopt always_to_end
+
+zmodload -i zsh/complist
+
 export CLICOLOR=1
 export BLOCK_SIZE=human-readable # https://www.gnu.org/software/coreutils/manual/html_node/Block-size.html
 export HISTSIZE=11000
@@ -73,20 +81,40 @@ export ZSH_CACHE_DIR=$ZSH/cache
 # Fix colour being used
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
 
+zplug load
+
 ### KEY BINDINGS ###
 KEYTIMEOUT=1 # Prevents key timeout lag.
 bindkey -e
 
-zplug load
+zmodload zsh/terminfo
+
+# From: https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh
+# Make sure that the terminal is in application mode when zle is active, since
+# only then values from $terminfo are valid
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+  function zle-line-init() {
+    echoti smkx
+  }
+  function zle-line-finish() {
+    echoti rmkx
+  }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
 
 # Bind UP and DOWN arrow keys for subsstring search.
-# if zplug check zsh-users/zsh-history-substring-search; then
-#   bindkey "$terminfo[cuu1]" history-substring-search-up
-#   bindkey "$terminfo[cud1]" history-substring-search-down
-# fi
+if zplug check zsh-users/zsh-history-substring-search; then
+  bindkey "$terminfo[kcuu1]" history-substring-search-up
+  bindkey "$terminfo[kcud1]" history-substring-search-down
+fi
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+if [[ "${terminfo[khome]}" != "" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line
+fi
+if [[ "${terminfo[kend]}" != "" ]]; then
+  bindkey "${terminfo[kend]}"  end-of-line
+fi
 
 alias l='ls -lAh'
 
