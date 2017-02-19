@@ -55,13 +55,6 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 
-# ZSH File completion
-# unsetopt menu_complete   # do not autoselect the first completion entry
-# unsetopt flowcontrol
-# setopt auto_menu
-# setopt complete_in_word
-# setopt always_to_end
-
 zmodload -i zsh/complist
 
 export CLICOLOR=1
