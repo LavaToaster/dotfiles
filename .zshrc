@@ -122,4 +122,4 @@ if which nvim >/dev/null 2>&1; then
   alias vim='nvim'
 fi
 
-#source ~/.zshrc.local
+source ~/.zshrc.local
