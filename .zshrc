@@ -117,6 +117,8 @@ fi
 
 alias l='ls -lAh'
 
+export EDITOR="vim"
+
 if which nvim >/dev/null 2>&1; then
   alias vi='nvim'
   alias vim='nvim'
