@@ -23,16 +23,9 @@ fancy_echo 'Cloning repo'
 yadm clone git@github.com:Lavoaster/dotfiles.git
 yadm submodule update --init --recursive
 
-fancy_echo 'Setting up some prezto symlinks'
-# Link some pretzo stuff
-ln -s $HOME/.zprezto/runcoms/zlogin $HOME/.zlogin
-ln -s $HOME/.zprezto/runcoms/zlogout $HOME/.zlogout
-ln -s $HOME/.zprezto/runcoms/zprofile $HOME/.zprofile
-
 touch ~/.zshrc.local
 
 echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.zshrc.local
 
-fancy_echo 'Running mac installer'
-
-bash $HOME/macos/mac install
+fancy_echo "Installing formulas and casks from the Brewfile ..."
+brew bundle --file=$HOME/macos/Brewfile
