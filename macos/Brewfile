@@ -65,7 +65,7 @@ cask 'razer-synapse'
 cask 'spotify'
 cask 'spotify-notifications'
 cask 'dash'
-# cask 'gpgtools' # Leaving this in for reference - but I've found this cask to hang at times...
+cask 'gpgtools'
 cask 'virtualbox'
 cask 'tunnelblick'
 cask 'hipchat'
@@ -75,6 +75,7 @@ cask 'sequel-pro-nightly'
 cask 'postico'
 cask 'teamviewer'
 cask 'docker'
+cask 'the-unarchiver'
 
 ## Fonts
 
