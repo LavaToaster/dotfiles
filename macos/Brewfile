@@ -76,6 +76,7 @@ cask 'postico'
 cask 'teamviewer'
 cask 'docker'
 cask 'the-unarchiver'
+cask 'vagrant'
 
 ## Fonts
 
