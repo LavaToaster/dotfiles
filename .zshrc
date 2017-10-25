@@ -18,10 +18,6 @@ zplug "plugins/aws", from:oh-my-zsh
 zplug "djui/alias-tips"
 zplug "oconnor663/zsh-sensible"
 zplug "b4b4r07/enhancd", use:init.sh
-
-zplug "plugins/colored-man-pages", from:oh-my-zsh
-zplug "plugins/aws", from:oh-my-zsh
-zplug "lib/completion", from:oh-my-zsh
 zplug "plugins/terraform", from:oh-my-zsh
 
 zplug "zsh-users/zsh-completions", defer:0
