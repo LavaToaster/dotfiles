@@ -37,6 +37,11 @@ brew 'fzf'
 brew 'yarn'
 brew 'fswatch'
 brew 'unison'
+brew 'nmap'
+
+## Elixir
+
+brew 'elixir'
 
 ## PHP
 
