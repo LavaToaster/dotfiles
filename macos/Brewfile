@@ -51,6 +51,7 @@ brew 'php71-ssh2'
 brew 'php71-intl'
 brew 'php71-libsodium'
 brew 'php71-mcrypt'
+brew 'php71-msgpack'
 
 ## Applications
 
