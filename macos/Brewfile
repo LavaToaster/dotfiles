@@ -38,6 +38,7 @@ brew 'yarn'
 brew 'fswatch'
 brew 'unison'
 brew 'nmap'
+brew 'diff-so-fancy'
 
 ## Elixir
 
