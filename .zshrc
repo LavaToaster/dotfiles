@@ -30,10 +30,14 @@ zplug "zsh-users/zsh-completions", defer:0
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "zsh-users/zsh-autosuggestions", defer:3
+zplug "mafredri/zsh-async", defer:0
+
+
+zplug "sindresorhus/pure", use:pure.zsh, as:theme
 
 # Theme.
-setopt prompt_subst # Make sure propt is able to be generated properly.
-zplug "caiogondim/bullet-train-oh-my-zsh-theme", use:bullet-train.zsh-theme
+#setopt prompt_subst # Make sure propt is able to be generated properly.
+#zplug "caiogondim/bullet-train-oh-my-zsh-theme", use:bullet-train.zsh-theme
 
 # Check for uninstalled plugins.
 if ! zplug check --verbose; then
