@@ -32,12 +32,8 @@ zplug "zsh-users/zsh-history-substring-search", defer:3
 zplug "zsh-users/zsh-autosuggestions", defer:3
 zplug "mafredri/zsh-async", defer:0
 
-
+# Theme
 zplug "sindresorhus/pure", use:pure.zsh, as:theme
-
-# Theme.
-#setopt prompt_subst # Make sure propt is able to be generated properly.
-#zplug "caiogondim/bullet-train-oh-my-zsh-theme", use:bullet-train.zsh-theme
 
 # Check for uninstalled plugins.
 if ! zplug check --verbose; then
@@ -46,18 +42,6 @@ if ! zplug check --verbose; then
     echo; zplug install
   fi
 fi
-
-BULLETTRAIN_DIR_EXTENDED=2
-BULLETTRAIN_GIT_COLORIZE_DIRTY=true
-BULLETTRAIN_PROMPT_ORDER=(
-  time
-  status
-  custom
-  context
-  dir
-  git
-  cmd_exec_time
-)
 
 zplug load
 
@@ -128,7 +112,7 @@ fi
 
 alias l='ls -lAh'
 
-export EDITOR="vim"
+export EDITOR="nvim"
 
 if which nvim >/dev/null 2>&1; then
   alias vi='nvim'
@@ -139,4 +123,3 @@ fi
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
-
