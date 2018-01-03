@@ -66,7 +66,7 @@ cask 'iterm2'
 cask 'spectacle'
 cask 'alfred'
 cask 'atom'
-cask 'intellij-idea'
+cask 'jetbrains-toolbox'
 cask 'razer-synapse'
 cask 'spotify'
 cask 'spotify-notifications'
@@ -84,6 +84,8 @@ cask 'docker'
 cask 'the-unarchiver'
 cask 'vagrant'
 cask 'keybase'
+cask '1password'
+cask 'numi'
 
 ## Fonts
 
