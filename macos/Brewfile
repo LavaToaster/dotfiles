@@ -87,6 +87,7 @@ cask 'vagrant'
 cask 'keybase'
 cask '1password'
 cask 'numi'
+cask 'keepingyouawake'
 
 ## Fonts
 
