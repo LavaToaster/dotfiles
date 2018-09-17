@@ -6,7 +6,7 @@ tap 'caskroom/versions'
 tap 'caskroom/fonts'
 tap 'jhawthorn/fzy'
 tap 'neovim/neovim'
-tap 'homebrew/homebrew-php'
+tap 'socratessystems/socrates'
 
 ## CLI
 
@@ -36,7 +36,7 @@ brew 'fzy'
 brew 'fzf'
 brew 'yarn'
 brew 'fswatch'
-brew 'unison'
+brew 'socratessystems/socrates/unison'
 brew 'nmap'
 brew 'diff-so-fancy'
 
@@ -46,22 +46,14 @@ brew 'elixir'
 
 ## PHP
 
-brew 'php71'
-brew 'php71-pdo-pgsql'
-brew 'php71-ssh2'
-brew 'php71-intl'
-brew 'php71-libsodium'
-brew 'php71-mcrypt'
-brew 'php71-msgpack'
+brew 'php'
 
 ## Applications
 
 cask 'google-chrome'
 cask 'firefox'
-cask 'cloud'
-cask 'flux'
+cask 'cloudapp'
 cask 'slack'
-cask 'skype'
 cask 'discord'
 cask 'iterm2'
 cask 'spectacle'
@@ -77,7 +69,6 @@ cask 'virtualbox'
 cask 'tunnelblick'
 cask 'hipchat'
 cask 'lastpass'
-cask 'veertu-desktop'
 cask 'sequel-pro-nightly'
 cask 'postico'
 cask 'teamviewer'
@@ -88,6 +79,7 @@ cask 'keybase'
 cask '1password'
 cask 'numi'
 cask 'keepingyouawake'
+cask 'visual-studio-code'
 
 ## Fonts
 
