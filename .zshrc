@@ -43,6 +43,9 @@ if ! zplug check --verbose; then
   fi
 fi
 
+
+source /usr/local/opt/asdf/asdf.sh
+
 zplug load
 
 if [[ ! -d ~/.tmux/plugins/tpm ]]; then
