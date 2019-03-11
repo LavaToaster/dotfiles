@@ -9,10 +9,8 @@ source "${ZPLG_HOME}/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-zplugin load zdharma/history-search-multi-word
-
-zplugin ice compile"*.lzui" from"notabug"
-zplugin load zdharma/zui
+zplugin light zdharma/zui
+zplugin light zdharma/zplugin-crasis
 
 zplugin ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
 zplugin light tj/git-extras
@@ -21,14 +19,16 @@ zplugin snippet OMZ::lib/compfix.zsh
 zplugin snippet OMZ::lib/completion.zsh
 zplugin light zsh-users/zsh-completions
 
-zplugin light zsh-users/zsh-autosuggestions
-zplugin light zdharma/fast-syntax-highlighting
-zplugin light zsh-users/zsh-history-substring-search
-
 zplugin light mafredri/zsh-async
 
 zplugin ice pick"async.zsh" src"pure.zsh"
 zplugin light sindresorhus/pure
+
+zplugin light zdharma/fast-syntax-highlighting
+zplugin light zdharma/history-search-multi-word
+zplugin light zsh-users/zsh-history-substring-search
+
+zplugin light zsh-users/zsh-autosuggestions
 
 setopt auto_cd
 
@@ -113,13 +113,11 @@ fi
 nvm() {
   echo "🚨 NVM not loaded! Loading now..."
   unset -f nvm
-  export NVM_PREFIX=$(brew --prefix nvm)
-  [ -s "$NVM_PREFIX/nvm.sh" ] && . "$NVM_PREFIX/nvm.sh"
+  load_nvm
   nvm "$@"
 }
 
 # Credit: https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs/
-
 declare -a NODE_GLOBALS=(`find ${NVM_DIR}/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
 
 NODE_GLOBALS+=("node")
@@ -135,6 +133,7 @@ done
 
 # Aliases
 
+alias .='echo $PWD'
 alias l='ls -lAh'
 alias -g ...='../..'
 alias -g ....='../../..'
