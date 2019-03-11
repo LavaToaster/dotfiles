@@ -1,59 +1,36 @@
-# Source zplug
-export ZPLUG_HOME=~/.zplug
+export ZPLG_HOME="${:-$HOME/.}zplugin"
 
-if [[ ! -d ~/.zplug ]]; then
-  echo "Installing zplug"
-  curl -sL https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+if [[ ! -d $ZPLG_HOME ]]; then
+  echo "Installing zplugin"
+  curl -sL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh | bash
 fi
 
-if [[ ! -d ~/.SpaceVim ]]; then
-  curl -sLf https://spacevim.org/install.sh | bash
-fi
+source "${ZPLG_HOME}/bin/zplugin.zsh"
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-source $ZPLUG_HOME/init.zsh
+zplugin load zdharma/history-search-multi-word
 
-zplug "lib/compfix", from:oh-my-zsh, defer:0
-zplug "lib/completion", from:oh-my-zsh, defer:0
-zplug "lib/termsupport", from:oh-my-zsh, defer:0
+zplugin ice compile"*.lzui" from"notabug"
+zplugin load zdharma/zui
 
-zplug "plugins/colored-man-pages", from:oh-my-zsh
-zplug "plugins/aws", from:oh-my-zsh
+zplugin ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
+zplugin light tj/git-extras
 
-zplug "djui/alias-tips"
-zplug "oconnor663/zsh-sensible"
-zplug "b4b4r07/enhancd", use:init.sh
-zplug "plugins/terraform", from:oh-my-zsh
+zplugin snippet OMZ::lib/compfix.zsh
+zplugin snippet OMZ::lib/completion.zsh
+zplugin light zsh-users/zsh-completions
 
-zplug "zsh-users/zsh-completions", defer:0
+zplugin light zsh-users/zsh-autosuggestions
+zplugin light zdharma/fast-syntax-highlighting
+zplugin light zsh-users/zsh-history-substring-search
 
-# Misc
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
-zplug "zsh-users/zsh-history-substring-search", defer:3
-zplug "zsh-users/zsh-autosuggestions", defer:3
-zplug "mafredri/zsh-async", defer:0
+zplugin light mafredri/zsh-async
 
-# Theme
-zplug "sindresorhus/pure", use:pure.zsh, as:theme
+zplugin ice pick"async.zsh" src"pure.zsh"
+zplugin light sindresorhus/pure
 
-# Check for uninstalled plugins.
-if ! zplug check --verbose; then
-  printf "Install? [y/N]: "
-  if read -q; then
-    echo; zplug install
-  fi
-fi
-
-
-source /usr/local/opt/asdf/asdf.sh
-
-zplug load
-
-if [[ ! -d ~/.tmux/plugins/tpm ]]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
-
-### COMPLETIONS ###
-type tmuxp &> /dev/null && eval "`_TMUXP_COMPLETE=source tmuxp`"
+setopt auto_cd
 
 # ZSH history
 setopt append_history
@@ -65,24 +42,31 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 setopt share_history
 
-zmodload -i zsh/complist
-
 export CLICOLOR=1
 export BLOCK_SIZE=human-readable # https://www.gnu.org/software/coreutils/manual/html_node/Block-size.html
 export HISTSIZE=11000
 export SAVEHIST=10000
 export HISTFILE=~/.zsh_history
-export ZSH_PLUGINS_ALIAS_TIPS_TEXT='    '
 export ZSH_CACHE_DIR=$ZSH/cache
 
-# Fix colour being used
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=243'
-
-### KEY BINDINGS ###
+# Key Bindings
 KEYTIMEOUT=1 # Prevents key timeout lag.
 bindkey -e
 
 zmodload zsh/terminfo
+
+typeset -A key
+
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
 
 # From: https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh
 # Make sure that the terminal is in application mode when zle is active, since
@@ -98,36 +82,84 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
   zle -N zle-line-finish
 fi
 
-# Bind UP and DOWN arrow keys for subsstring search.
-if zplug check zsh-users/zsh-history-substring-search; then
-  bindkey "$terminfo[kcuu1]" history-substring-search-up
-  bindkey "$terminfo[kcud1]" history-substring-search-down
+# setup key accordingly
+[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
+[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
+[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
+[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
+[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"      history-substring-search-up
+[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"    history-substring-search-down
+[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"    backward-char
+[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"   forward-char
+
+# TMUX / TPM Setup
+
+if [[ ! -d ${HOME}/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 fi
 
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line
-fi
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line
+# NVM Setup
+
+export NVM_DIR="${:-$HOME/.}nvm"
+
+if [[ ! -d $NVM_DIR ]]; then
+  echo "Installing NVM"
+  mkdir $NVM_DIR
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+
+  echo "Please modify ${HOME}/.zshrc to remove the line of code that the NVM installer added"
 fi
 
-# Set Aliases, I Guess.
+nvm() {
+  echo "🚨 NVM not loaded! Loading now..."
+  unset -f nvm
+  export NVM_PREFIX=$(brew --prefix nvm)
+  [ -s "$NVM_PREFIX/nvm.sh" ] && . "$NVM_PREFIX/nvm.sh"
+  nvm "$@"
+}
+
+# Credit: https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs/
+
+declare -a NODE_GLOBALS=(`find ${NVM_DIR}/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+
+NODE_GLOBALS+=("node")
+NODE_GLOBALS+=("nvm")
+
+load_nvm () {
+    [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"
+}
+
+for cmd in "${NODE_GLOBALS[@]}"; do
+    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+done
+
+# Aliases
 
 alias l='ls -lAh'
+alias -g ...='../..'
+alias -g ....='../../..'
 
-export EDITOR="nvim"
+# Config
 
+## If nvim exists, use it as default vim, and override vi/vim to use it.
 if which nvim >/dev/null 2>&1; then
+  export EDITOR="nvim"
+
   alias vi='nvim'
   alias vim='nvim'
 fi
 
-# Load local file if it exists
+# Load local file if it exists (this isn't commited to the dotfiles repo)
 if [[ -f ~/.zshrc.local ]]; then
   source ~/.zshrc.local
 fi
 
-brew-sync() {
-  brew bundle --file=~/macos/Brewfile
-}
+if [ -z "$ZSH_COMPDUMP" ]; then
+  ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+fi
 
+autoload -Uz compinit
+handle_completion_insecurities
+compinit -i -C -d "${ZSH_COMPDUMP}"
+
+zplugin cdreplay -q
