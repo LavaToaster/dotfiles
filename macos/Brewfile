@@ -7,6 +7,7 @@ tap 'caskroom/fonts'
 tap 'jhawthorn/fzy'
 tap 'neovim/neovim'
 tap 'socratessystems/socrates'
+tap 'homebrew/cask-drivers'
 
 ## CLI
 
