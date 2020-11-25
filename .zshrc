@@ -1,5 +1,5 @@
 export ZPLG_HOME="${:-$HOME/.}zplugin"
-
+export ZSH_CACHE_DIR="${:-$HOME/.}oh-my-zsh-cache"
 if [[ ! -d $ZPLG_HOME ]]; then
   echo "Installing zplugin"
   curl -sL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh | bash
@@ -18,6 +18,7 @@ zplugin light tj/git-extras
 zplugin snippet OMZ::lib/compfix.zsh
 zplugin snippet OMZ::lib/completion.zsh
 zplugin light zsh-users/zsh-completions
+zplugin snippet OMZ::plugins/aws/aws.plugin.zsh
 
 zplugin light mafredri/zsh-async
 
@@ -98,38 +99,18 @@ if [[ ! -d ${HOME}/.tmux/plugins/tpm ]]; then
   git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 fi
 
-# NVM Setup
 
-export NVM_DIR="${:-$HOME/.}nvm"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
 
-if [[ ! -d $NVM_DIR ]]; then
-  echo "Installing NVM"
-  mkdir $NVM_DIR
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+# Volta Setup
 
-  echo "Please modify ${HOME}/.zshrc to remove the line of code that the NVM installer added"
+if [[ ! -d $VOLTA_HOME ]]; then
+  curl https://get.volta.sh | bash -s -- --skip-setup
+
+   $VOLTA_HOME/bin/volta install node@14
+   $VOLTA_HOME/bin/volta install node@12
 fi
-
-nvm() {
-  echo "🚨 NVM not loaded! Loading now..."
-  unset -f nvm
-  load_nvm
-  nvm "$@"
-}
-
-# Credit: https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs/
-declare -a NODE_GLOBALS=(`find ${NVM_DIR}/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
-NODE_GLOBALS+=("node")
-NODE_GLOBALS+=("nvm")
-NODE_GLOBALS+=("yarn")
-
-load_nvm () {
-    [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"
-}
-
-for cmd in "${NODE_GLOBALS[@]}"; do
-    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
-done
 
 # Aliases
 
@@ -138,6 +119,9 @@ alias c='clear'
 alias l='ls -lAh'
 alias -g ...='../..'
 alias -g ....='../../..'
+
+alias k='kubectl'
+alias py='python'
 
 # Config
 
@@ -162,4 +146,47 @@ autoload -Uz compinit
 handle_completion_insecurities
 compinit -i -C -d "${ZSH_COMPDUMP}"
 
+# Kubectl Autocompletion
+source <(kubectl completion zsh)
+
 zplugin cdreplay -q
+
+alias kcc="kubectl config get-contexts"
+
+function git_branches()
+{
+    if [[ -z "$1" ]]; then
+        echo "Usage: $FUNCNAME <dir>" >&2
+        return 1
+    fi
+
+    if [[ ! -d "$1" ]]; then
+        echo "Invalid dir specified: '${1}'"
+        return 1
+    fi
+
+    # Subshell so we don't end up in a different dir than where we started.
+    (
+        cd "$1"
+        for sub in *; do
+            [[ -d "${sub}/.git" ]] || continue
+            echo "$sub [$(cd "$sub"; git  branch | grep '^\*' | cut -d' ' -f2)]"
+        done
+    )
+}
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/local/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
