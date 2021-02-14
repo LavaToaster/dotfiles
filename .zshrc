@@ -142,6 +142,10 @@ if [ -z "$ZSH_COMPDUMP" ]; then
   ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 fi
 
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
 autoload -Uz compinit
 handle_completion_insecurities
 compinit -i -C -d "${ZSH_COMPDUMP}"
@@ -175,6 +179,11 @@ function git_branches()
     )
 }
 
+function docker_yeet() {
+    docker kill $(docker ps -q)
+    docker rm $(docker ps -a -q)
+}
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -189,4 +198,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+export PATH="$VOLTA_HOME/bin:$PATH"
 
