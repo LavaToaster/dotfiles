@@ -1,0 +1,55 @@
+import:
+  - ~/.config/alacritty/colors.yml
+
+env: 
+ TERM: xterm-256color
+
+font:
+  normal: {style: Regular, family: "FiraCode Nerd Font Mono"}
+  size: 14
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+window:
+  history: 0
+  scrolling: null
+  
+  padding:
+    x: 4
+    y: 2
+
+  # Spread additional padding evenly around the terminal content.
+  dynamic_padding: true
+  dynamic_title: true
+
+  decorations: Full
+
+# When true, bold text is drawn using the bright variant of colors.
+draw_bold_text_with_bright_colors: true
+
+scrolling:
+  # Maximum number of lines in the scrollback buffer.
+  # Specifying '0' will disable scrolling.
+  history: 10000
+
+  # Number of lines the viewport will move for every line scrolled when
+  # scrollback is enabled (history > 0).
+  multiplier: 3
+
+bell:
+  animation: EaseOutExpo
+  duration: 0
+
+alt_send_esc: true
+live_config_reload: true
+
+key_bindings:
+- {key: V, action: Paste, mods: Control|Shift}
+- {key: C, action: Copy, mods: Control|Shift}
+- {key: Insert, action: PasteSelection, mods: Shift}
+- {key: Key0, action: ResetFontSize, mods: Control}
+- {key: Equals, action: IncreaseFontSize, mods: Control}
+- {key: Plus, action: IncreaseFontSize, mods: Control}
+- {key: Minus, action: DecreaseFontSize, mods: Control}

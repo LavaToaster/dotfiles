@@ -1,0 +1,67 @@
+cask_args appdir: '/Applications', greedy: true
+
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/cask-drivers'
+
+## CLI
+
+brew 'neovim'
+brew 'tmux'
+brew 'htop'
+brew 'reattach-to-user-namespace'
+brew 'go'
+brew 'tree'
+brew 'diff-so-fancy'
+brew 'jq'
+brew 'gh'
+brew 'nvim'
+brew 'whalebrew'
+brew 'yadm'
+
+## CLI - Fun
+brew "sl" # Corrects bad typing
+brew "asciiquarium"
+brew "catimg"
+brew "cmatrix"
+brew "cowsay"
+brew "figlet" # Banner-like program prints strings as ASCII art
+brew "fortune"
+brew "lolcat" # rainbow colored cat command
+
+## CLI - Dockerized (Currently Playing around with)
+
+# whalebrew 'whalebrew/awscli' # it's outdated
+whalebrew 'tianon/speedtest'
+
+# Docker for Mac appears to include kubectl
+# whalebrew 'whalebrew/kubectl'
+
+## Applications
+
+cask 'alacritty'
+cask 'iterm2'
+cask 'visual-studio-code'
+cask 'jetbrains-toolbox'
+cask 'docker'
+cask 'brave-browser'
+cask 'firefox'
+cask 'slack'
+cask 'discord'
+cask 'spectacle'
+cask 'alfred'
+cask 'spotify'
+cask 'gpg-suite-no-mail'
+cask 'the-unarchiver'
+cask '1password'
+cask '1password-cli'
+cask 'keepingyouawake'
+cask 'setapp'
+cask 'sequel-ace'
+cask 'sonos'
+
+## Fonts
+
+cask 'font-fira-code'
+cask 'font-fira-code-nerd-font'
+cask 'font-monoid-nerd-font'

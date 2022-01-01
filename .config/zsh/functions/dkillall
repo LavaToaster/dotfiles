@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+# Kills and removes all running containers without prejudice
+function dkillall() {
+  docker kill $(docker ps -q)
+  docker rm $(docker ps -a -q)
+}

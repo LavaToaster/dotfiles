@@ -1,14 +1,25 @@
-My dotfiles and stuff I want to automate whenever I decide reformatting my machine is a good idea. Love that fresh OS Smell.
+# Adam's dotfiles
 
-Shoutout to the following repositories:
-
-* [18F/laptop](https://github.com/18F/laptop) - For providing the mac script I used to provision
-* [thoughtbot/laptop](https://github.com/thoughtbot/laptop) - For providing the original mac script 18F/laptop uses
-* [prezto](https://github.com/zsh-users/prezto) - What I originally used before learning zplug - I will forever mispell this as pretzo
-* [zplug](https://github.com/zplug/zplug) - It's like yarn/npm/composer but for your shell.
+## Fresh OS Install Method:
 
 Supposedly simple setup for macOS:
 
 ```
-curl -L https://raw.githubusercontent.com/Lavoaster/dotfiles/master/bootstrap.sh | bash
+curl -L https://raw.githubusercontent.com/LavaToaster/dotfiles/main/bootstrap.zsh | zsh
 ```
+
+## Tips:
+
+### Homebrew maintenance:
+
+I've found throughout the years since I finally setup a dotfiles repo that maintaining
+ a list of active programs and things you install via `brew` comes and go's.
+
+I'll be making this more and more strict in the future, but for now interaction
+ with homebrew if you plan on keeping a tool or app should be updating `~/.config/mac/Brewfile`
+ then running `hbu`.
+
+As time passes and the apps you have installed change you can use `hbc` to run 
+ a [cleanup check](https://docs.brew.sh/Manpage#bundle-subcommand) and it will list
+ apps you've installed via brew but haven't declared in `Brewfile`.
+  
