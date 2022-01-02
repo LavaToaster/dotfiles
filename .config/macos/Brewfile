@@ -39,7 +39,7 @@ whalebrew 'tianon/speedtest'
 
 ## Applications
 
-cask 'alacritty'
+cask 'kitty'
 cask 'iterm2'
 cask 'visual-studio-code'
 cask 'jetbrains-toolbox'

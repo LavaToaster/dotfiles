@@ -43,6 +43,10 @@ if [[ "$OSTYPE" =~ 'darwin' ]]; then
   source "$ZDOTDIR/aliases/darwin.zsh"
 fi
 
+if type brew &>/dev/null; then
+  fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+fi
+
 autoload -Uz compinit
 # Load and initialize the completion system ignoring insecure directories with a
 # cache time of 20 hours, so it should almost always regenerate the first time a
@@ -115,12 +119,6 @@ setopt hist_verify
 
 # Show timestamp in history
 setopt extended_history
-
-# completion stuff
-if type brew &>/dev/null; then
-  fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
-fi
-
 
 # keyboard setup
 

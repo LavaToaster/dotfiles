@@ -12,6 +12,7 @@ alias l='ls -lAh'
 
 # reload
 alias rl="exec zsh -l"
+alias rll="rm -f $ZCOMPDUMP_PATH; rl"
 alias zconfig="$EDITOR $ZDOTDIR/.zshrc"
 
 # apps
