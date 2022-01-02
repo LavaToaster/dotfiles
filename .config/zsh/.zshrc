@@ -1,8 +1,14 @@
 #!/usr/bin/env zsh
 
+if [[ ! -d "$XDG_DATA_HOME/zsh/site-functions" ]]; then
+  mkdir -p "$XDG_DATA_HOME/zsh/site-functions"
+fi;
+
 # install functions
 fpath=("$ZDOTDIR/functions" $fpath)
+fpath=("$XDG_DATA_HOME/zsh/site-functions" $fpath)
 autoload $ZDOTDIR/functions/*
+# autoload $XDG_DATA_HOME/zsh/site-functions/*
 
 # zinit setup
 if [[ ! -d $ZINIT_HOME ]]; then
@@ -19,9 +25,9 @@ source "${ZINIT_HOME}/zinit.zsh"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # prompt
 # zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
@@ -46,6 +52,8 @@ fi
 if type brew &>/dev/null; then
   fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
 fi
+
+source $ZDOTDIR/plugins/*
 
 autoload -Uz compinit
 # Load and initialize the completion system ignoring insecure directories with a
