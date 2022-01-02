@@ -1,0 +1,44 @@
+#!/usr/bin/env zsh
+
+function patch-kitty() {
+  # prompt for sudo at start since we'll need it later to delete some stuff
+  sudo -v
+
+  local number
+  typeset -A kittyicons
+  typeset -A kittyiconsidx
+  kittyicons["DinkDonk (Light)"]="https://raw.githubusercontent.com/DinkDonk/kitty-icon/main/kitty-dark.icns"
+  kittyicons["DinkDonk (Dark)"]="https://raw.githubusercontent.com/DinkDonk/kitty-icon/main/kitty-light.icns"
+  kittyicons["k0nserv"]="https://raw.githubusercontent.com/k0nserv/kitty-icon/main/kitty.icns"
+  kittyicons["hristost"]="https://raw.githubusercontent.com/hristost/kitty-alternative-icon/main/kitty.icns"
+
+  echo "Select Icon:"
+  typeset -i i=0
+  for key val in "${(@kv)kittyicons}"; do
+    echo "($i) $key"
+    kittyiconsidx[$i]=$val
+    ((i++))
+  done
+
+  while :; do
+    echo -n "i can haz number: "
+    read number
+    [[ ! -z $kittyiconsidx[$number] ]] || continue
+    break
+  done
+  
+  echo "Downloading Icon"
+  curl -o /Applications/kitty.app/Contents/Resources/kitty.icns -Ls $kittyiconsidx[$number]
+  xattr -cr /Applications/kitty.app
+
+  echo "Clearing Cache"
+  sudo find /private/var/folders/ -name 'com.apple.dock.iconcache' -delete > /dev/null 2>&1
+  sudo find /var/folders/ -name 'com.apple.dock.iconcache' -delete > /dev/null 2>&1
+  sudo find /private/var/folders/ -name 'com.apple.iconservices' -delete > /dev/null 2>&1
+  sudo rm -r /Library/Caches/com.apple.iconservices.store > /dev/null 2>&1
+  
+  echo "Killing Dock"
+  killall Finder && killall Dock
+  
+  echo "Done 😺"
+}
