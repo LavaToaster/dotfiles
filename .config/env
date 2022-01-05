@@ -8,6 +8,8 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZCOMPDUMP_PATH="$ZSH_CACHE_DIR/zcompcache"
 
+export WHALEBREW_INSTALL_PATH="$HOME/.local/bin"
+
 export CLICOLOR=1
 
 ## This is used for detecting if zinit is here and then cloning it.

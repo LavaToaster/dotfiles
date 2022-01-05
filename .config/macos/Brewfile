@@ -1,4 +1,4 @@
-cask_args appdir: '/Applications', greedy: true
+cask_args appdir: '/Applications'
 
 tap 'homebrew/cask'
 tap 'homebrew/cask-fonts'

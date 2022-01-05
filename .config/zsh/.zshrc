@@ -10,6 +10,10 @@ fpath=("$XDG_DATA_HOME/zsh/site-functions" $fpath)
 autoload $ZDOTDIR/functions/*
 # autoload $XDG_DATA_HOME/zsh/site-functions/*
 
+if [[ -d "/opt/homebrew" ]]; then
+  path=("/opt/homebrew/bin" $path)
+fi
+
 # zinit setup
 if [[ ! -d $ZINIT_HOME ]]; then
   echo "Installing zinit"
