@@ -53,11 +53,18 @@ if [[ "$OSTYPE" =~ 'darwin' ]]; then
   source "$ZDOTDIR/aliases/darwin.zsh"
 fi
 
+LOCAL_ALIASES="$ZDOTDIR/aliases/local.zsh"
+if [[ -f $LOCAL_ALIASES ]]; then
+  source $LOCAL_ALIASES
+fi
+
 if type brew &>/dev/null; then
   fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
 fi
 
 source $ZDOTDIR/plugins/*
+
+path=("$HOME/.dotnet/tools" $path)
 
 autoload -Uz compinit
 # Load and initialize the completion system ignoring insecure directories with a
@@ -72,6 +79,9 @@ fi
 unset _comp_files
 
 zinit cdreplay -q 
+
+autoload bashcompinit && bashcompinit
+complete -C aws_completer aws
 
 # Use case-insensitve globbing.
 unsetopt caseglob
@@ -184,3 +194,4 @@ fi
 bindkey "^[[1;9D" backward-word
 bindkey "^[[1;9C" forward-word
 bindkey '^[^?' backward-kill-word
+bindkey "^R" history-search-multi-word
