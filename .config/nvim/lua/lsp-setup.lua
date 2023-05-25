@@ -18,7 +18,7 @@ local function installServers(names)
 end
 
 -- find a list of available ones here: https://github.com/williamboman/nvim-lsp-installer
-installServers({'dockerls', 'sumneko_lua', 'jsonls', 'tsserver'})
+installServers({'dockerls', 'lua_ls', 'jsonls', 'tsserver'})
 
 -- setup installed servers
 lsp_installer.on_server_ready(function(server)
