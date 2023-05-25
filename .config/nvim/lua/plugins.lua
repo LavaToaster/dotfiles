@@ -34,8 +34,9 @@ local packer = require('packer').startup(function(use)
 
   -- lsp
   use {
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
     'neovim/nvim-lspconfig',
-    'williamboman/nvim-lsp-installer',
   }
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
