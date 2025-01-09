@@ -14,39 +14,42 @@ if [[ -d "/opt/homebrew" ]]; then
   path=("/opt/homebrew/bin" $path)
 fi
 
-# zinit setup
-if [[ ! -d $ZINIT_HOME ]]; then
-  echo "Installing zinit"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-
-declare -A ZINIT
-
-ZINIT[ZCOMPDUMP_PATH]="$ZCOMPDUMP_PATH"
-
+# Install zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+# Initialize completion system first
+autoload -Uz compinit
+compinit
 
-# prompt
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+if [ -n "${TMUX}" ]; then
+  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+fi
+
+# Completion Plugins
+zinit light zsh-users/zsh-completions
+#zinit light marlonrichert/zsh-autocomplete
+zinit light Aloxaf/fzf-tab 
+
+# Theme
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+
+# Theme
 # zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-# zinit load sindresorhus/pure
+# zinit light sindresorhus/pure
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
-zinit load zshzoo/zstyle-completions
-
-zinit load zdharma-continuum/fast-syntax-highlighting
-zinit load zdharma-continuum/history-search-multi-word
-zinit load zsh-users/zsh-history-substring-search
-zinit load zsh-users/zsh-autosuggestions
+# Utility
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zdharma-continuum/history-search-multi-word
+zinit light zsh-users/zsh-history-substring-search
 
 source "$ZDOTDIR/aliases/aliases.zsh"
 if [[ "$OSTYPE" =~ 'darwin' ]]; then
@@ -66,24 +69,25 @@ source $ZDOTDIR/plugins/*
 
 path=("$HOME/.dotnet/tools" $path)
 
-autoload -Uz compinit
-# Load and initialize the completion system ignoring insecure directories with a
-# cache time of 20 hours, so it should almost always regenerate the first time a
-# shell is opened each day.
-_comp_files=($ZCOMPDUMP_PATH(Nm-20))
-if (( $#_comp_files )); then
-    compinit -i -C -d "$ZCOMPDUMP_PATH"
-else
-    compinit -i -d "$ZCOMPDUMP_PATH"
-fi
-unset _comp_files
-
-zinit cdreplay -q 
+# autoload -Uz compinit
+# # Load and initialize the completion system ignoring insecure directories with a
+# # cache time of 20 hours, so it should almost always regenerate the first time a
+# # shell is opened each day.
+# _comp_files=($ZCOMPDUMP_PATH(Nm-20))
+# if (( $#_comp_files )); then
+#     compinit -i -C -d "$ZCOMPDUMP_PATH"
+# else
+#     compinit -i -d "$ZCOMPDUMP_PATH"
+# fi
+# unset _comp_files
+#
+# zinit cdreplay -q 
 
 autoload bashcompinit && bashcompinit
 complete -C aws_completer aws
+complete -o nospace -C /opt/homebrew/bin/terramate terramate
 
-# Use case-insensitve globbing.
+# Use case-insensitive globbing.
 unsetopt caseglob
 
 # glob dotfiles as well
@@ -103,95 +107,24 @@ fi
 
 HISTSIZE=10000000
 SAVEHIST=10000000
-# setopt appendhistory notify
-# unsetopt beep nomatch
 
-# Append History instead of replacing it after each session
-setopt appendhistory
+setopt SHARE_HISTORY      # Share history between all sessions
+setopt HIST_IGNORE_DUPS   # Do not record an event that was just recorded
+setopt HIST_IGNORE_SPACE  # Do not record an event starting with a space
+setopt HIST_REDUCE_BLANKS # Remove superfluous blanks from each command line being added to the history list.
+setopt HIST_VERIFY        # Do not execute immediately upon history expansion
+setopt INC_APPEND_HISTORY # Write to the history file immediately, not when the shell exits.
+setopt EXTENDED_HISTORY   # Save timestamps in history
 
-# Treat the '!' character specially during expansion.
-setopt bang_hist
+# Keybindings
+source $ZDOTDIR/keybindings.zsh
 
-# Write to the history file immediately, not when the shell exits.
-setopt inc_append_history
+export PATH="$PATH:$HOME/.cargo/env"
 
-# Share history between all sessions.
-setopt share_history
-
-# Expire a duplicate event first when trimming history.
-setopt hist_expire_dups_first
-
-# Do not record an event that was just recorded again.
-setopt hist_ignore_dups
-
-# Delete an old recorded event if a new event is a duplicate.
-setopt hist_ignore_all_dups
-
-# Do not display a previously found event.
-setopt hist_find_no_dups
-
-# Do not record an event starting with a space.
-setopt hist_ignore_space
-
-# Do not write a duplicate event to the history file.
-setopt hist_save_no_dups
-
-# Do not execute immediately upon history expansion.
-setopt hist_verify
-
-# Show timestamp in history
-setopt extended_history
-
-# keyboard setup
-
-# Prevents key timeout lag.
-KEYTIMEOUT=1
-# enables emacs keybindings mode
-bindkey -e
-
-zmodload zsh/terminfo
-
-typeset -A key
-
-key[Home]=${terminfo[khome]}
-key[End]=${terminfo[kend]}
-key[Insert]=${terminfo[kich1]}
-key[Delete]=${terminfo[kdch1]}
-key[Up]=${terminfo[kcuu1]}
-key[Down]=${terminfo[kcud1]}
-key[Left]=${terminfo[kcub1]}
-key[Right]=${terminfo[kcuf1]}
-key[Alt-Left]=${terminfo[kLFT3]}
-key[Alt-Right]=${terminfo[kRIT3]}
-key[PageUp]=${terminfo[kpp]}
-key[PageDown]=${terminfo[knp]}
-
-# From: https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/key-bindings.zsh
-# Make sure that the terminal is in application mode when zle is active, since
-# only then values from $terminfo are valid
-if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
-  function zle-line-init() {
-    echoti smkx
-  }
-  function zle-line-finish() {
-    echoti rmkx
-  }
-  zle -N zle-line-init
-  zle -N zle-line-finish
-fi
-
-# setup key accordingly
-[[ -n "${key[Home]}"      ]] && bindkey "${key[Home]}"      beginning-of-line
-[[ -n "${key[End]}"       ]] && bindkey "${key[End]}"       end-of-line
-[[ -n "${key[Insert]}"    ]] && bindkey "${key[Insert]}"    overwrite-mode
-[[ -n "${key[Delete]}"    ]] && bindkey "${key[Delete]}"    delete-char
-[[ -n "${key[Up]}"        ]] && bindkey "${key[Up]}"        history-substring-search-up
-[[ -n "${key[Down]}"      ]] && bindkey "${key[Down]}"      history-substring-search-down
-[[ -n "${key[Left]}"      ]] && bindkey "${key[Left]}"      backward-char
-[[ -n "${key[Right]}"     ]] && bindkey "${key[Right]}"     forward-char
-[[ -n "${key[Alt-Left]}"  ]] && bindkey "${key[Alt-Left]}"  backward-word
-[[ -n "${key[Alt-Right]}" ]] && bindkey "${key[Alt-Right]}" forward-word
-bindkey "^[[1;9D" backward-word
-bindkey "^[[1;9C" forward-word
-bindkey '^[^?' backward-kill-word
-bindkey "^R" history-search-multi-word
+# pnpm
+export PNPM_HOME="/Users/adam/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
