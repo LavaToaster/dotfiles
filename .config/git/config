@@ -6,6 +6,7 @@
     pushf = push --force-with-lease
     recent = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
     main = !git fetch origin main:main && git checkout main 
+    master = !git fetch origin master:master && git checkout master
 
 [core]
     excludesfile = ~/.gitignore
@@ -41,5 +42,12 @@
 [pull]
     rebase = true
 
+[push]
+    autoSetupRemote = true
+
 [rebase]
     autoStash = true
+
+[merge]
+    ff = false
+
