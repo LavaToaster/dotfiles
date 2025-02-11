@@ -14,3 +14,4 @@ path=(
   $HOME/.local/bin
   $path
 )
+. "$HOME/.cargo/env"
